@@ -118,6 +118,9 @@ Steps To Create:
     }
     
     3.4) Run app
+    3.4.1) The main screen with the Make Toast button should appear.
+    
+    ![alt text](https://drive.google.com/open?id=1U6ed0-nTpKyW9wKXWAnOfz88e_gJPhwP)
     
     
     
