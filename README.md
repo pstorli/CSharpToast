@@ -18,15 +18,46 @@ Usage:
   Call: Toast.show ("This is a test toast.");
  
 DownloadURL:
+  git clone https://github.com/pstorli/CSharpToast
   
 Steps To Create:
-  1) Create a  
+  1) Create a new application in MS Visual Studio. 
+  1.1) File -> New -> Application -> Windows Forms App (.NET Framework)
+  1.2) Name app as desired, here I used CSharpToast
   
-  Add windows form item the size you want your toast, say 6 inches.
-  1.1) Set the FormBorderStyle to None
-  1.2) Set the StartPosition to CenterScreen
-
-  2) Add a label
-  2.1) Set autosize to false.
-  2.2) Set textalign to MiddleCenter
-  2.3) Set Dock to fill
+  2) Adjust initial form/screen
+  2.1) Set Form1.cs name to MainWindow.cs
+  2.4) Set the StartPosition to CenterScreen
+  2.5) Add a button1 to the form. Set text to "Make Toast"
+  2.6) Double click button. A new method should appear:
+       private void button1_Click(object sender, EventArgs e)
+  2.7) Add this code to it: 
+       Toast.show ("Toast is done!");
+  
+  3) Create the toast form.
+  3.1) In the solution explorer, Add -> New Item -> Windows Form
+  3.1.1) Set the name to Toast.cs
+  3.1.2) Set the toast form width and height to toast size, say 6 inches wide by 1/2" tall.
+  3.1.3) Set the FormBorderStyle to None
+  
+  3.2) Add a label to your form
+  3.2.1) Set the name to Message
+  3.2.2) Set autosize to false.
+  3.2.3) Set textalign to MiddleCenter
+  3.2.4) Set Dock to fill
+  
+  3.3) Add some toasty processing logic to file Toast.cs
+  3.3.1) Change Toast.cs from this:
+  
+    using System.Windows.Forms;
+    namespace CSharpToast
+    {    
+        public partial class Toast : Form { 
+            public Toast()
+            {
+                InitializeComponent();
+            }
+        }
+    }
+    
+    3.3.2) Change Toast.cs to this:
