@@ -7,10 +7,6 @@ A toast message is one that appears, then after a delay, disappears without user
 
 This is needed when either the default language implementation is lacking, see java Android, or when there is no default language implementation.
 
-I did google on this and found unfathomibly difficult or near impossible solutions.
-
-This solution is a form, in straight c#, no crazy libs or anyting else needed.
-
 The steps below illustrate the steps I took to create the toast, 
 but you can, if desired, just download the app here with all of these steps already completed.
 
@@ -39,14 +35,18 @@ Steps To Create:
   3.1.1) Set the name to Toast.cs
   3.1.2) Set the toast form width and height to toast size, say 6 inches wide by 1/2" tall.
   3.1.3) Set the FormBorderStyle to None
+  3.1.4) Set the background color to white.
+  3.1.5) Set the start position to CenterScreen
   
   3.2) Add a label to your form
   3.2.1) Set the name to Message
   3.2.2) Set autosize to false.
-  3.2.3) Set textalign to MiddleCenter
-  3.2.4) Set Dock to fill
+  3.2.3) Set textalign to MiddleCenter.
+  3.2.4) Set the background color to white.
+  3.2.5) Set Dock to fill.
+    
+  3.3) Add some processing logic to file Toast.cs
   
-  3.3) Add some toasty processing logic to file Toast.cs
   3.3.1) Change Toast.cs from this:
   
     using System.Windows.Forms;
@@ -60,4 +60,64 @@ Steps To Create:
         }
     }
     
-    3.3.2) Change Toast.cs to this:
+ 3.3.2) to this:
+ 
+ 3.3.3) Added DEFAULT_MS_DELAY to control how long, by default toast shoould show up.
+ 3.3.4) Added delegate void SafeOnTimedEvent to call Close from differenet thread.
+ 3.3.5) Added constructor with just message and one with message and delay, to override DEFAULT_MS_DELAY
+ 3.3.6) Created toast and added a timer to call, void OnTimedEvent() , when toast is done 
+        which calls Toast.close(); on correct thread.
+        
+    using System;
+    using System.Timers;
+    using System.Windows.Forms;
+    namespace CSharpToast
+    {    
+        public partial class Toast : Form {
+
+            public static int DEFAULT_MS_DELAY = 2500;
+            private delegate void SafeOnTimedEvent(Object source, ElapsedEventArgs e);
+
+            public Toast (String message)
+            {
+                InitializeComponent();
+
+                Message.Text = message;
+            }
+
+            public static Toast show (String message)
+            {
+                return show(message, DEFAULT_MS_DELAY);
+            }
+
+            public static Toast show (String message, int ms)
+            {
+                Toast toast = new Toast(message);
+                System.Timers.Timer aTimer = new System.Timers.Timer(ms);
+                aTimer.Elapsed += toast.OnTimedEvent;
+                aTimer.AutoReset = false;
+                aTimer.Enabled = true;
+                toast.ShowDialog();
+
+                return toast;
+            }
+
+            private void OnTimedEvent (Object source, ElapsedEventArgs e)
+            {
+                if (this.InvokeRequired)
+                {
+                    var d = new SafeOnTimedEvent(OnTimedEvent);
+                    Invoke(d, new object[] { source, e });
+                }
+                else
+                {
+                    Close();
+                }
+            }        
+        }
+    }
+    
+    3.4) Run app
+    
+    
+    
