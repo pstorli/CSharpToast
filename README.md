@@ -118,9 +118,10 @@ Steps To Create:
     }
     
     3.4) Run app
-    3.4.1) The main screen with the Make Toast button should appear.
-    
-    ![alt text](https://drive.google.com/open?id=1U6ed0-nTpKyW9wKXWAnOfz88e_gJPhwP)
+    3.4.1) The main screen with the "Make Toast" button should appear.
+    3.4.2) When you press the "Make Toast" button, 
+    3.4.3) a white toast popup should appear that says "Toast is Done!"
+    3.4.4) which should disappear in 2500 ms.
     
     
     
